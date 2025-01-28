@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
-import { VideoContext } from '../../Contexts/VideoContext';
+import { useVideoContext } from '../../Contexts/VideoContext'; // Importar el hook personalizado
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Modal, Button } from 'react-bootstrap';
 
@@ -74,7 +74,7 @@ const VideoCard = styled.div`
 `;
 
 const Home = () => {
-  const { videos, deleteVideo, updateVideo } = useContext(VideoContext);
+  const { videos, deleteVideo, updateVideo } = useVideoContext(); // Usar el hook personalizado
   const [showModal, setShowModal] = useState(false);
   const [editingVideo, setEditingVideo] = useState(null);
   const [formValues, setFormValues] = useState({
@@ -122,7 +122,7 @@ const Home = () => {
         {videos.filter(video => video.category === 'Frontend').map(video => (
           <VideoCard key={video.id}>
             <img src={video.imageUrl} alt={video.title} />
-            <div className="info">
+            <div className="info"> {/* Corregido el cierre de la etiqueta */}
               <h3>{video.title}</h3>
               <p>{video.description}</p>
             </div>
