@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { VideoContext } from '../../Contexts/VideoContext';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const NewVideoContainer = styled.div`
   padding: 2rem;
@@ -75,7 +75,7 @@ const Button = styled.button`
 
 const NewVideo = () => {
   const { addVideo } = useContext(VideoContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
     title: '',
     category: '',
@@ -92,7 +92,7 @@ const NewVideo = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     addVideo(formValues);
-    history.push('/');
+    navigate('/');
   };
 
   const handleClear = () => {
@@ -123,7 +123,7 @@ const NewVideo = () => {
         </FormField>
         <FormField>
           <Label>Video URL</Label>
-          <Input type="text" id="videoUrl" name="videoUrl" value={formValues.videoUrl} onChange={handleChange} required />
+          <input type="text" id="videoUrl" name="videoUrl" value={formValues.videoUrl} onChange={handleChange} required />
         </FormField>
         <FormField>
           <Label>Descripción</Label>
