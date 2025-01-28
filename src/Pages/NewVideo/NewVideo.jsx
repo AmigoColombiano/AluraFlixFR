@@ -1,6 +1,7 @@
+// src/Pages/NewVideo/NewVideo.jsx
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import { VideoContext } from '../../Contexts/VideoContext';
+import VideoContext from '../../Contexts/VideoContext'; // Cambiar la importación
 import { useNavigate } from 'react-router-dom';
 
 const NewVideoContainer = styled.div`
@@ -123,7 +124,7 @@ const NewVideo = () => {
         </FormField>
         <FormField>
           <Label>Video URL</Label>
-          <input type="text" id="videoUrl" name="videoUrl" value={formValues.videoUrl} onChange={handleChange} required />
+          <Input type="text" id="videoUrl" name="videoUrl" value={formValues.videoUrl} onChange={handleChange} required />
         </FormField>
         <FormField>
           <Label>Descripción</Label>

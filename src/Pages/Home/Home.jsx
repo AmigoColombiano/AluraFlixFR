@@ -1,8 +1,10 @@
+// src/Pages/Home/Home.jsx
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { useVideoContext } from '../../Contexts/VideoContext'; // Importar el hook personalizado
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Modal, Button } from 'react-bootstrap';
+import VideoPlayerModal from '../../Components/VideoPlayer'; // Importar el componente VideoPlayerModal
 
 const HomeContainer = styled.div`
   padding: 2rem;
@@ -45,6 +47,7 @@ const VideoCard = styled.div`
     height: 100px;
     object-fit: cover;
     margin-right: 1rem;
+    cursor: pointer; /* Añadir cursor para indicar que es clickeable */
   }
   .info {
     flex-grow: 1;
@@ -84,6 +87,8 @@ const Home = () => {
     videoUrl: '',
     description: ''
   });
+  const [showVideoPlayer, setShowVideoPlayer] = useState(false);
+  const [selectedVideoUrl, setSelectedVideoUrl] = useState('');
 
   const handleClose = () => setShowModal(false);
   const handleShow = (video) => {
@@ -114,6 +119,16 @@ const Home = () => {
     }
   };
 
+  const handleVideoClick = (videoUrl) => {
+    setSelectedVideoUrl(videoUrl);
+    setShowVideoPlayer(true);
+  };
+
+  const closeVideoPlayer = () => {
+    setShowVideoPlayer(false);
+    setSelectedVideoUrl('');
+  };
+
   return (
     <HomeContainer>
       <Banner>Bienvenido a AluraFlix</Banner>
@@ -121,8 +136,8 @@ const Home = () => {
         <h2>Frontend</h2>
         {videos.filter(video => video.category === 'Frontend').map(video => (
           <VideoCard key={video.id}>
-            <img src={video.imageUrl} alt={video.title} />
-            <div className="info"> {/* Corregido el cierre de la etiqueta */}
+            <img src={video.imageUrl} alt={video.title} onClick={() => handleVideoClick(video.videoUrl)} />
+            <div className="info">
               <h3>{video.title}</h3>
               <p>{video.description}</p>
             </div>
@@ -137,7 +152,7 @@ const Home = () => {
         <h2>Backend</h2>
         {videos.filter(video => video.category === 'Backend').map(video => (
           <VideoCard key={video.id}>
-            <img src={video.imageUrl} alt={video.title} />
+            <img src={video.imageUrl} alt={video.title} onClick={() => handleVideoClick(video.videoUrl)} />
             <div className="info">
               <h3>{video.title}</h3>
               <p>{video.description}</p>
@@ -153,7 +168,7 @@ const Home = () => {
         <h2>Innovación y Gestión</h2>
         {videos.filter(video => video.category === 'Innovación y Gestión').map(video => (
           <VideoCard key={video.id}>
-            <img src={video.imageUrl} alt={video.title} />
+            <img src={video.imageUrl} alt={video.title} onClick={() => handleVideoClick(video.videoUrl)} />
             <div className="info">
               <h3>{video.title}</h3>
               <p>{video.description}</p>
@@ -202,6 +217,9 @@ const Home = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      {showVideoPlayer && (
+        <VideoPlayerModal videoUrl={selectedVideoUrl} onClose={closeVideoPlayer} />
+      )}
     </HomeContainer>
   );
 };
